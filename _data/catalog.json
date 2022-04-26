@@ -1,55 +1,93 @@
 {
 	"@context": "https://schema.org",
-	"@type": "Dataset",
-	"name": "OME-NGFF 0.3 representative IDR samples",
-	"url": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/",
-	"license": "https://creativecommons.org/licenses/by/4.0/",
+	"@type": "DataCatalog",
+	"name": "OME-NGFF representative samples",
+	"url": "https://sbesson.github.io/ngff/ome-ngff-public-data/",
 	"isAccessibleForFree" : true,
-	"hasPart" : [
+	"dataset": [
 		{
 			"@type": "Dataset",
-			"name": "9836998.zarr",
-			"url": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0079A/9836998.zarr",
-			"size": "1584 x 788 x 142 x 2",
-			"keywords": [
-				"labels",
-				"XYZC"
-			],
-			"isBasedOn": {
-				"@type": "Dataset",
-				"name": "idr0079",
-				"url": "https://doi.org/10.17867/10000123"
-			}
+			"name": "OME-NGFF 0.1 representative IDR samples",
+			"url": "https://sbesson.github.io/ngff/ome-ngff-public-data/0.1/",
+			"sameAs": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.1/",
+			"license": "https://creativecommons.org/licenses/by/4.0/"
 		},
 		{
 			"@type": "Dataset",
-			"name": "5514375.zarr",
-			"url": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0052A/5514375.zarr",
-			"size": "256 x 256 x 31 x 3 x 40",
-			"keywords": [
-				"labels",
-				"XYZCT"
-			],
-			"isBasedOn": {
-				"@type": "Dataset",
-				"name": "idr0052",
-				"url": "https://doi.org/10.17867/10000138"
-			}
+			"name": "OME-NGFF 0.2 representative IDR samples",
+			"url": "https://sbesson.github.io/ngff/ome-ngff-public-data/0.2/",
+			"sameAs": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.2/",
+			"license": "https://creativecommons.org/licenses/by/4.0/"
 		},
 		{
 			"@type": "Dataset",
-			"name": "11511419.zarr",
-			"url": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0095B/11511419.zarr",
-			"size": "2048 x 2048 x 3",
-			"keywords": [
-				"labels",
-				"XYC"
-			],
-			"isBasedOn": {
-				"@type": "Dataset",
-				"name": "idr0095",
-				"url": "https://doi.org/10.17867/10000151"
-			}
+			"name": "OME-NGFF 0.3 representative IDR samples",
+			"url": "https://sbesson.github.io/ngff/ome-ngff-public-data/0.3/",
+			"sameAs": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/",
+			"license": "https://creativecommons.org/licenses/by/4.0/",
+			"isAccessibleForFree" : true,
+			"hasPart" : [
+				{
+					"@type": "Dataset",
+					"name": "9836998.zarr",
+					"size": "1584 x 788 x 142 x 2",
+					"keywords": [
+						"labels",
+						"XYZC"
+					],
+					"isBasedOn": {
+						"@type": "Dataset",
+						"name": "idr0079",
+						"url": "https://doi.org/10.17867/10000123"
+					},
+					"distribution":[
+						{
+							"@type":"DataDownload",
+							"contentUrl":"https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0079A/9836998.zarr"
+						}
+					]
+				},
+				{
+					"@type": "Dataset",
+					"name": "5514375.zarr",
+					"size": "256 x 256 x 31 x 3 x 40",
+					"keywords": [
+						"labels",
+						"XYZCT"
+					],
+					"isBasedOn": {
+						"@type": "Dataset",
+						"name": "idr0052",
+						"url": "https://doi.org/10.17867/10000138"
+					},
+					"distribution":[
+						{
+							"@type":"DataDownload",
+							"contentUrl":"https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0052A/5514375.zarr"
+						}
+					]
+				},
+				{
+					"@type": "Dataset",
+					"name": "11511419.zarr",
+					"size": "2048 x 2048 x 3",
+					"keywords": [
+						"labels",
+						"XYC"
+					],
+					"isBasedOn": {
+						"@type": "Dataset",
+						"name": "idr0095",
+						"url": "https://doi.org/10.17867/10000151"
+					},
+					"distribution":[
+						{
+							"@type":"DataDownload",
+							"contentUrl": "https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.3/idr0095B/11511419.zarr"
+						}
+					]
+				}
+			]
 		}
 	]
 }
