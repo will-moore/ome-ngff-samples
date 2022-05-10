@@ -1,4 +1,4 @@
-OME-NGFF version,EMBL-EBI bucket (current),SizeX,SizeY,SizeZ,SizeC,SizeT,Axes,Wells,Keywords,Name,Study,DOI
+OME-NGFF version,EMBL-EBI S3 key,SizeX,SizeY,SizeZ,SizeC,SizeT,Axes,Wells,Keywords,Name,Study,DOI
 0.1,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.1/12689244.zarr,4992,4255,401,3,1,XYZCT,,,,idr0106,
 0.1,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.1/179706.zarr,1344,1024,1,2,329,XYZCT,,,,idr0002,
 0.1,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.1/1884807.zarr,256,256,1,3,1,XYZCT,,,,idr0021,

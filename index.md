@@ -21,7 +21,7 @@ title: "IDR OME-NGFF Samples"
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
-            <th>EMBL-EBI bucket (current)</th>
+            <th>EMBL-EBI S3 key</th>
             <th>SizeX</th>
             <th>SizeY</th>
             <th>SizeZ</th>
@@ -39,7 +39,11 @@ title: "IDR OME-NGFF Samples"
 {% for rec in site.data.table %}
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
-            <td>{{ rec.["EMBL-EBI bucket (current)"] }}</td>
+            <td>
+                <a href="{{ rec.["EMBL-EBI S3 key"] }}">
+                    {{ rec.["EMBL-EBI S3 key"] | split: "/" | last }}
+                </a>
+            </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
             <td>{{ rec.["SizeZ"] }}</td>
