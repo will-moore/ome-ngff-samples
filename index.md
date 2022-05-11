@@ -21,6 +21,7 @@ title: "IDR OME-NGFF Samples"
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
+            <th>Thumbnail</th>
             <th>EMBL-EBI S3 key</th>
             <th>SizeX</th>
             <th>SizeY</th>
@@ -37,11 +38,19 @@ title: "IDR OME-NGFF Samples"
     </thead>
     <tbody>
 {% for rec in site.data.table %}
+{% capture image_name %}{{ rec.["EMBL-EBI S3 key"] | split: "/" | last }}{% endcapture %}
+{% capture image_id %}{{ image_name | split: "." | first}}{% endcapture %}
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
             <td>
+                <img
+                    alt="IDR thumbnail for image:{{image_id}}"
+                    style="margin:0"
+                    src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"/>
+            </td>
+            <td>
                 <a href="{{ rec.["EMBL-EBI S3 key"] }}">
-                    {{ rec.["EMBL-EBI S3 key"] | split: "/" | last }}
+                    {{ image_name }}
                 </a>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
