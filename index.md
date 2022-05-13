@@ -1,5 +1,5 @@
 ---
-title: "IDR OME-NGFF Samples"
+title: "Catalog of IDR images formatted as OME-NGFF"
 ---
 <script type="application/ld+json">
 {
