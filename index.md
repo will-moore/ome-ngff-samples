@@ -37,8 +37,9 @@ title: "IDR OME-NGFF Samples"
         </tr>
     </thead>
     <tbody>
+{% assign s3key = "EMBL-EBI bucket (current)" %}
 {% for rec in site.data.table %}
-{% capture image_name %}{{ rec.["EMBL-EBI S3 key"] | split: "/" | last }}{% endcapture %}
+{% capture image_name %}{{ rec.[s3key] | split: "/" | last }}{% endcapture %}
 {% capture image_id %}{{ image_name | split: "." | first}}{% endcapture %}
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
@@ -49,7 +50,7 @@ title: "IDR OME-NGFF Samples"
                     src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"/>
             </td>
             <td>
-                <a href="{{ rec.["EMBL-EBI S3 key"] }}">
+                <a href="{{ rec.[s3key] }}">
                     {{ image_name }}
                 </a>
             </td>
