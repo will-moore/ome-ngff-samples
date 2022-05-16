@@ -45,13 +45,15 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
             <td>
-                <img
-                    alt="IDR thumbnail for image:{{image_id}}"
-                    style="margin:0"
-                    src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"/>
+                <a href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
+                    <img
+                        alt="IDR thumbnail for image:{{image_id}}"
+                        style="margin:0"
+                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"/>
+                </a>
             </td>
             <td>
-                <a href="{{ rec.[s3key] }}">
+                <a href="{{ rec[s3key] }}">
                     {{ image_name }}
                 </a>
             </td>
