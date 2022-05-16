@@ -34,6 +34,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>Name</th>
             <th>Study</th>
             <th>DOI</th>
+            <th>Date added</th>
         </tr>
     </thead>
     <tbody>
@@ -65,6 +66,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["Name"] }}</td>
             <td>{{ rec.["Study"] }}</td>
             <td>{{ rec.["DOI"] }}</td>
+            <td>{{ rec.["Date added"] }}</td>
         </tr>
 {% endfor %}
     </tbody>
