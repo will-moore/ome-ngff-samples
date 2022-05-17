@@ -66,7 +66,11 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["Wells"] }}</td>
             <td>{{ rec.["Keywords"] }}</td>
             <td>{{ rec.["License"] }}</td>
-            <td>{{ rec.["Study"] }}</td>
+            <td>
+                <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[Study] }}">
+                    {{ rec.["Study"] }}
+                </a>
+            </td>
             <td>{{ rec.["DOI"] }}</td>
             <td>{{ rec.["Date added"] }}</td>
         </tr>
