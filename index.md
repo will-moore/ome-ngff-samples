@@ -31,7 +31,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>Axes</th>
             <th>Wells</th>
             <th>Keywords</th>
-            <th>Name</th>
+            <th>License</th>
             <th>Study</th>
             <th>DOI</th>
             <th>Date added</th>
@@ -65,7 +65,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["Axes"] }}</td>
             <td>{{ rec.["Wells"] }}</td>
             <td>{{ rec.["Keywords"] }}</td>
-            <td>{{ rec.["Name"] }}</td>
+            <td>{{ rec.["License"] }}</td>
             <td>{{ rec.["Study"] }}</td>
             <td>{{ rec.["DOI"] }}</td>
             <td>{{ rec.["Date added"] }}</td>
