@@ -72,3 +72,4 @@ OME-NGFF version,EMBL-EBI bucket (current),SizeX,SizeY,SizeZ,SizeC,SizeT,Axes,We
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0072B/9512.zarr,1345,1017,1,2,1,XYC,72,,,idr0072,,2022-05-10
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0083A/9822152.zarr,144384,93184,1,1,1,XYZCT,,,,idr0083,,2022-05-11
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0062A/6001247.zarr,253,210,257,2,,XYZC,,labels (0),,idr0062,,2022-05-11
+0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0044A/4007801.zarr,2169,2048,988,2,532,XYZCT,,,,idr0044,,2022-05-17
