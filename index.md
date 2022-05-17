@@ -39,6 +39,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
     </thead>
     <tbody>
 {% assign s3key = "EMBL-EBI bucket (current)" %}
+{% assign studykey = "Study" %}
 {% for rec in site.data.table %}
 {% capture image_name %}{{ rec.[s3key] | split: "/" | last }}{% endcapture %}
 {% capture image_id %}{{ image_name | split: "." | first}}{% endcapture %}
@@ -67,7 +68,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["Keywords"] }}</td>
             <td>{{ rec.["License"] }}</td>
             <td>
-                <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[Study] }}">
+                <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[studykey] }}">
                     {{ rec.["Study"] }}
                 </a>
             </td>
