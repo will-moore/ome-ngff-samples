@@ -12,7 +12,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
     "name": "GitHub"
   },
   "copyrightYear": "2022",
-  "discussionUrl": "https://github.com/ome/idr-ome-ngff-samples/issues"
+  "discussionUrl": "https://github.com/IDR/ome-ngff-samples/issues"
 }
 </script>
 
