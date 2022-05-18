@@ -82,7 +82,8 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 <script>
 $(document).ready( function () {
     $('#table').DataTable( {
-          "scrollX": true
+          "scrollX": true,
+          "pageLength": 100
     });
 } );
 </script>
