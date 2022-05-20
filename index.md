@@ -31,6 +31,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>SizeT</th>
             <th>Axes</th>
             <th>Wells</th>
+            <th>Fields</th>
             <th>Keywords</th>
             <th>License</th>
             <th>Study</th>
@@ -51,7 +52,12 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                     <img
                         alt="IDR thumbnail for image:{{image_id}}"
                         style="margin:0"
-                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"/>
+                        {% if rec["Thumb ID"] %}
+                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{ rec["Thumb ID"] }}/"
+                        {% else %}
+                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"
+                        {% endif %}
+                    />
                 </a>
             </td>
             <td>
@@ -77,6 +83,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["SizeT"] }}</td>
             <td>{{ rec.["Axes"] }}</td>
             <td>{{ rec.["Wells"] }}</td>
+            <td>{{ rec.["Fields"] }}</td>
             <td>{{ rec.["Keywords"] }}</td>
             <td>{{ rec.["License"] }}</td>
             <td>
