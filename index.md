@@ -16,13 +16,14 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 }
 </script>
 
-<table class="display" id="table">
+<table class="display table" id="table">
     <thead>
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
             <th>Thumbnail</th>
             <th>EMBL-EBI S3 key</th>
+            <th>View in IDR</th>
             <th>SizeX</th>
             <th>SizeY</th>
             <th>SizeZ</th>
@@ -57,6 +58,17 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="{{ rec[s3key] }}">
                     {{ image_name }}
                 </a>
+            </td>
+            <td>
+                {% if rec["Wells"] %}
+                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
+                        Plate in IDR
+                    </a>
+                {% else %}
+                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
+                        Image in IDR
+                    </a>
+                {% endif %}
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
