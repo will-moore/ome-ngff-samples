@@ -57,7 +57,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="{{ rec[s3key] }}">
                     {{ image_name }}
                 </a>
-                <button title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}'">Copy</button>
+                <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
