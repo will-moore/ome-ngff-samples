@@ -50,13 +50,9 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>
                 <a target="_blank" href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
                     <img
-                        alt="IDR thumbnail for image:{{image_id}}"
+                        alt="IDR thumbnail for Image:{{ rec["Representative Image ID"] }}"
                         style="margin:0"
-                        {% if rec["Thumb ID"] %}
-                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{ rec["Thumb ID"] }}/"
-                        {% else %}
-                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"
-                        {% endif %}
+                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{ rec["Representative Image ID"] }}/"
                     />
                 </a>
             </td>
