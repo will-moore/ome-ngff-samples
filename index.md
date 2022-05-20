@@ -48,7 +48,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
             <td>
-                <a href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
+                <a target="_blank" href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
                     <img
                         alt="IDR thumbnail for image:{{image_id}}"
                         style="margin:0"
