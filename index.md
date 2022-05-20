@@ -23,7 +23,6 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>OME-NGFF version</th>
             <th>Thumbnail</th>
             <th>EMBL-EBI S3 key</th>
-            <th>View in IDR</th>
             <th>SizeX</th>
             <th>SizeY</th>
             <th>SizeZ</th>
@@ -35,6 +34,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>Keywords</th>
             <th>License</th>
             <th>Study</th>
+            <th>View in IDR</th>
             <th>DOI</th>
             <th>Date added</th>
         </tr>
@@ -65,17 +65,6 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                     {{ image_name }}
                 </a>
             </td>
-            <td>
-                {% if rec["Wells"] %}
-                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
-                        Plate in IDR
-                    </a>
-                {% else %}
-                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
-                        Image in IDR
-                    </a>
-                {% endif %}
-            </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
             <td>{{ rec.["SizeZ"] }}</td>
@@ -90,6 +79,17 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[studykey] }}">
                     {{ rec.["Study"] }}
                 </a>
+            </td>
+            <td>
+                {% if rec["Wells"] %}
+                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
+                        Plate in IDR
+                    </a>
+                {% else %}
+                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
+                        Image in IDR
+                    </a>
+                {% endif %}
             </td>
             <td>{{ rec.["DOI"] }}</td>
             <td>{{ rec.["Date added"] }}</td>
