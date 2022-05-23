@@ -16,6 +16,14 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 }
 </script>
 
+<style>
+    .page-content .wrapper {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+    }
+</style>
+
 <table class="display table" id="table">
     <thead>
 <!-- TODO: should be read from data file -->
