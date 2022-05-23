@@ -56,7 +56,9 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
             <td>
-                <a target="_blank" href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
+                <a target="_blank"
+                    title="Open NGFF {% if rec['Wells'] %}Plate{% else %}Image{% endif %} in Vizarr"
+                    href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
                     <img
                         alt="IDR thumbnail for Image:{{ rec["Representative Image ID"] }}"
                         style="margin:0"
