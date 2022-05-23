@@ -57,6 +57,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="{{ rec[s3key] }}">
                     {{ image_name }}
                 </a>
+                <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
@@ -86,4 +87,38 @@ $(document).ready( function () {
           "pageLength": 100
     });
 } );
+
+
+function copyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    // Place in the top-left corner of screen regardless of scroll position.
+    textArea.style.position = 'fixed';
+
+    textArea.value = text;
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    var successful;
+    try {
+        successful = document.execCommand('copy');
+    } catch (err) {
+        console.log('Oops, unable to copy');
+    }
+    document.body.removeChild(textArea);
+
+    if (successful) {
+        // show user that copying happened - update text on element (e.g. button)
+        let target = event.target;
+        let html = target.innerHTML;
+        target.innerHTML = "Copied!"
+        setTimeout(() => {
+            // reset after 1 second
+            target.innerHTML = html
+        }, 1000)
+    } else {
+        console.log("Copying failed")
+    }
+}
 </script>
