@@ -29,7 +29,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
-            <th>Thumbnail</th>
+            <th>Thumbnail (open in <a target="_blank" href="https://github.com/hms-dbmi/vizarr">Vizarr</a>)</th>
             <th>EMBL-EBI S3 key</th>
             <th>SizeX</th>
             <th>SizeY</th>
