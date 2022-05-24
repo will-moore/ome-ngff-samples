@@ -16,12 +16,20 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 }
 </script>
 
-<table class="display" id="table">
+<style>
+    .page-content .wrapper {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+    }
+</style>
+
+<table class="display table" id="table">
     <thead>
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
-            <th>Thumbnail</th>
+            <th>Thumbnail (open in <a target="_blank" href="https://github.com/hms-dbmi/vizarr">Vizarr</a>)</th>
             <th>EMBL-EBI S3 key</th>
             <th>SizeX</th>
             <th>SizeY</th>
@@ -30,9 +38,11 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>SizeT</th>
             <th>Axes</th>
             <th>Wells</th>
+            <th>Fields</th>
             <th>Keywords</th>
             <th>License</th>
             <th>Study</th>
+            <th>View in IDR</th>
             <th>DOI</th>
             <th>Date added</th>
         </tr>
@@ -46,11 +56,14 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         <tr>
             <td>{{ rec["OME-NGFF version"] }}</td>
             <td>
-                <a href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
+                <a target="_blank"
+                    title="Open NGFF {% if rec['Wells'] %}Plate{% else %}Image{% endif %} in Vizarr"
+                    href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
                     <img
-                        alt="IDR thumbnail for image:{{image_id}}"
+                        alt="IDR thumbnail for Image:{{ rec["Representative Image ID"] }}"
                         style="margin:0"
-                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{image_id}}/"/>
+                        src="https://idr.openmicroscopy.org/webclient/render_thumbnail/{{ rec["Representative Image ID"] }}/"
+                    />
                 </a>
             </td>
             <td>
@@ -66,12 +79,24 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["SizeT"] }}</td>
             <td>{{ rec.["Axes"] }}</td>
             <td>{{ rec.["Wells"] }}</td>
+            <td>{{ rec.["Fields"] }}</td>
             <td>{{ rec.["Keywords"] }}</td>
             <td>{{ rec.["License"] }}</td>
             <td>
                 <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[studykey] }}">
                     {{ rec.["Study"] }}
                 </a>
+            </td>
+            <td>
+                {% if rec["Wells"] %}
+                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
+                        Plate in IDR
+                    </a>
+                {% else %}
+                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
+                        Image in IDR
+                    </a>
+                {% endif %}
             </td>
             <td>{{ rec.["DOI"] }}</td>
             <td>{{ rec.["Date added"] }}</td>
