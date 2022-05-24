@@ -22,47 +22,7 @@ title: "Show metadata summary for OME-NGFF data"
 
 <script type="module">
 
-    import { slice, addCodec, openArray } from "https://cdn.skypack.dev/zarr";
-
-
-    async function exampleES6() {
-
-        let attrs = await fetch(url + "/.zattrs").then(rsp => rsp.json());
-        console.log("attrs", attrs);
-        let paths = attrs.multiscales[0].datasets.map(d => d.path);
-        let lastPath = paths[paths.length - 2];
-
-        const channels = rootAttrs.omero.channels;
-        const ranges = channels.map((ch) => {return {min: ch.window.start, max: ch.window.end}});
-
-        // Dynamic import 
-        addCodec("blosc", async () => (await import("https://cdn.skypack.dev/numcodecs/blosc")).default);
-        const z = await openArray({ store: url + "/" + lastPath });
-
-        let c = 0;
-        let zarray = await z.get([0, c, 80, null, null]);
-        console.log(zarray);
-
-
-        const RED = 0;
-        const GREEN = 1;
-        const BLUE = 2;
-
-
-        
-        // Need to interleave the channels in RGBA buffer...
-        const rgba = new Uint8ClampedArray(4 * zarray.data.length).fill(0);
-        let offset = 0;
-        for (let i = 0; i < raw_chs[0].data.length; i++) {
-            for (let c=0; c < raw_chs.length; c++) {
-            let v = ((raw_chs[c].data[i] - ranges[c].min) / (ranges[c].max - ranges[c].min));
-            rgba[offset + c] = (v * 256) << 0;
-            }
-            rgba[offset + 3] = 255; // alpha
-            offset += 4;
-        }
-        return rgba;
-    }
+import { slice, openArray } from "https://cdn.skypack.dev/zarr";
 
 function log(text) {
     const el = document.createElement("pre");
@@ -95,12 +55,30 @@ async function loadRegion(path, region) {
     return zarray;
 }
 
-async function renderRegion(path, region, range) {
+function getMinMax(zarray) {
+    const shape = zarray.shape;
+    const data = zarray.data;
+    const height = shape[0];
+    const width = shape[1];
+    let minVal = Infinity;
+    let maxVal = -Infinity;
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let rawValue = data[y][x];
+            if (rawValue < minVal) minVal = rawValue;
+            if (rawValue > maxVal) maxVal = rawValue;
+        }
+    }
+    return [minVal, maxVal];
+}
+
+async function renderRegion(path, region) {
     const zarray = await loadRegion(path, region);
     const shape = zarray.shape;
     const data = zarray.data;
     const height = shape[0];
     const width = shape[1];
+    const range = getMinMax(zarray);
 
     let red = 0;
     let green = 1;
@@ -111,7 +89,6 @@ async function renderRegion(path, region, range) {
 
     const rgba = new Uint8ClampedArray(4 * height * width).fill(0);
     let offset = 0;
-    console.log(range)
     let maxPixel = 0
     let maxValue = 0;
     for (let y = 0; y < height; y++) {
@@ -120,6 +97,7 @@ async function renderRegion(path, region, range) {
             let rawValue = data[y][x];
             maxPixel = Math.max(maxPixel, rawValue);
             let fraction = ((rawValue - range[0]) / (range[1] - range[0]));
+            fraction = fraction * 2;
             let v = (fraction * 256) << 0;
             maxValue = Math.max(maxValue, v);
             rgba[offset + red] = v;
@@ -170,6 +148,12 @@ function logCanvas(rgba, width, height) {
     logJson(rootAttrs);
 
     let paths = rootAttrs.multiscales[0].datasets.map(d => d.path);
+    let axesNames = ["t", "c", "z", "y", "x"];
+    let axes = rootAttrs.multiscales[0].axes;
+    if (axes) {
+        axesNames = axes.map(axis => axis.name ? axis.name : axis);
+    }
+    log("Axes: " + JSON.stringify(axesNames));
 
     log("paths");
     logJson(paths);
@@ -193,9 +177,9 @@ function logCanvas(rgba, width, height) {
 
         const shape = arrayAttrs.shape;
         log("Shape: " + JSON.stringify(shape));
-        const dims = shape.length;
-        const sizeX = shape[dims - 1];
-        const sizeY = shape[dims - 2];
+        const nDims = shape.length;
+        const sizeX = shape[nDims - 1];
+        const sizeY = shape[nDims - 2];
 
         let xSlice = null;
         let ySlice = null;
@@ -209,9 +193,35 @@ function logCanvas(rgba, width, height) {
             continue;
         }
 
-        for(let c=0; c<channelRanges.length; c++) {
+        let channelDim = axesNames.indexOf("c");
+        let sizeC = shape[channelDim] || 1;
+        console.log("sizeC", sizeC);
+        console.log("axesNames", axesNames);
+
+        let dims = axesNames.map((axis, index) => {
+            console.log("axis, index", axis, index, axis === 'x' || axis === 'y');
+            if (axis === 'z') {
+                // Mid-point in Z-stack
+                let sizeZ = shape[index];
+                console.log('sizeZ', sizeZ);
+                return parseInt(sizeZ / 2);
+            }
+            if (axis === 't' ) {
+                // Start of time-lapse
+                return 0
+            }
+            if (axis === 'x' || axis === 'y') {
+                return null;
+            }
+            return 0;
+        });
+        console.log("channelDim", channelDim);
+        console.log("dims", dims);
+
+        for(let c=0; c<sizeC; c++) {
             log("Render region: c: " + c);
-            await renderRegion(path, [0, c, 200, ySlice, xSlice], [0, 10000]);
+            dims[channelDim] = c;
+            await renderRegion(path, dims);
         } 
     };
 })();
