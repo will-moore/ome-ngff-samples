@@ -38,6 +38,10 @@ async function getJson(url) {
     return await fetch(url).then(rsp => rsp.json());
 }
 
+function hexToRgb(color) {
+    return [0, 2, 4].map(i => parseInt(color.slice(i, i + 2), 16));
+}
+
 async function loadRegion(path, region) {
     // E.g. region = [1,1,1,"0:100", "0:100"]
     region = region.map(dim => {
@@ -51,7 +55,6 @@ async function loadRegion(path, region) {
     console.log("region", region);
     const z = await openArray({ store: source + path });
     let zarray = await z.get(region);
-    console.log(zarray);
     return zarray;
 }
 
@@ -72,42 +75,57 @@ function getMinMax(zarray) {
     return [minVal, maxVal];
 }
 
-async function renderRegion(path, region) {
-    const zarray = await loadRegion(path, region);
-    const shape = zarray.shape;
-    const data = zarray.data;
+async function renderRegion(path, slices, channelColors, channelRanges) {
+
+    // load all channels...
+    const planes = await Promise.all(slices.map(s => loadRegion(path, s)));
+    console.log("planes", planes);
+    const shape = planes[0].shape;
+    const data = planes[0].data;
     const height = shape[0];
     const width = shape[1];
-    const range = getMinMax(zarray);
+    // const range = getMinMax(planes[0]);
 
-    let red = 0;
-    let green = 1;
-    let blue = 2;
-    let alpha = 3;
-    console.log("SHAPE", shape, shape[0] * shape[1]);
+    console.log("SHAPE", shape, height * width);
     console.log("data.length", data.length, data.length * 4)
+    console.log("channelColors", channelColors);
+    console.log("channelRanges", channelRanges);
 
     const rgba = new Uint8ClampedArray(4 * height * width).fill(0);
     let offset = 0;
-    let maxPixel = 0
-    let maxValue = 0;
+    // let maxFraction = 0;
+    // let maxValue = 0;
+    // let maxRaw = 0;
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
-        // for (let c=0; c < raw_chs.length; c++) {
-            let rawValue = data[y][x];
-            maxPixel = Math.max(maxPixel, rawValue);
-            let fraction = ((rawValue - range[0]) / (range[1] - range[0]));
-            fraction = fraction * 2;
-            let v = (fraction * 256) << 0;
-            maxValue = Math.max(maxValue, v);
-            rgba[offset + red] = v;
-            rgba[offset + green] = v;
-            rgba[offset + blue] = v;
-            rgba[offset + alpha] = 255; // alpha
+            for (let p=0; p < planes.length; p++) {
+                let data = planes[p].data;
+                let rgb = channelColors[p];
+                let range = channelRanges[p];
+                // console.log({x, y, data});
+                let rawValue = data[y][x];
+                // maxRaw = Math.max(maxRaw, rawValue);
+                // range = [0, 55000]
+                let fraction = ((rawValue - range[0]) / (range[1] - range[0]));
+                // maxFraction = Math.max(fraction, maxFraction);
+                // fraction = fraction * 2; // boost
+                for(let i=0; i<3; i++) {
+                    if (rgb[i] > 0) {
+                        let v = (fraction * rgb[i]) << 0;
+                        // maxValue = Math.max(maxValue, v);
+                        rgba[offset + i] = Math.max(rgba[offset + i], v);
+                    }
+                }
+                // rgba[offset + 1] = (fraction * rgb[1]) << 0;
+                // rgba[offset + 2] = (fraction * rgb[2]) << 0;
+            }
+            rgba[offset + 3] = 255; // alpha
             offset += 4;
         }
     }
-    console.log("maxValue", maxValue, "maxPixel", maxPixel);
+    // console.log("maxRaw", maxRaw);
+    // console.log("maxFraction", maxFraction);
+    // console.log("maxValue", maxValue);
     console.log("rgba", rgba);
     logCanvas(rgba, width, height);
 }
@@ -159,10 +177,15 @@ function logCanvas(rgba, width, height) {
     logJson(paths);
 
     let channelRanges = [];
+    let channelColors = [];
     if (rootAttrs?.omero?.channels) {
-        channelRanges = rootAttrs?.omero?.channels.map(channel => {
+        let channels = rootAttrs.omero.channels;
+        channelRanges = channels.map(channel => {
             return [channel.window.start, channel.window.end];
-        })
+        });
+        channelColors = channels.map(channel => {
+            return hexToRgb(channel.color);
+        });
     }
     log("channelRanges")
     logJson(channelRanges);
@@ -218,11 +241,16 @@ function logCanvas(rgba, width, height) {
         console.log("channelDim", channelDim);
         console.log("dims", dims);
 
-        for(let c=0; c<sizeC; c++) {
-            log("Render region: c: " + c);
-            dims[channelDim] = c;
-            await renderRegion(path, dims);
-        } 
+        let slices = channelColors.map((color, c) => {
+            let sl = [...dims];
+            sl[channelDim] = c; 
+            return sl;
+        });
+        console.log("slices", slices);
+
+
+        await renderRegion(path, slices, channelColors, channelRanges);
+        
     };
 })();
 
