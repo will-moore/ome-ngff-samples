@@ -37,6 +37,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>SizeC</th>
             <th>SizeT</th>
             <th>Axes</th>
+            <th>Show Metadata</th>
             <th>Wells</th>
             <th>Fields</th>
             <th>Keywords</th>
@@ -77,6 +78,9 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>{{ rec.["SizeC"] }}</td>
             <td>{{ rec.["SizeT"] }}</td>
             <td>{{ rec.["Axes"] }}</td>
+            <td><a target="_blank" title="Open OME-NGFF metadata in new tab"
+                href="metadata.html?source={{ rec[s3key] }}">Metadata</a>
+            </td>
             <td>{{ rec.["Wells"] }}</td>
             <td>{{ rec.["Fields"] }}</td>
             <td>{{ rec.["Keywords"] }}</td>
