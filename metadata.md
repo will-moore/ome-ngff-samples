@@ -1,6 +1,7 @@
 ---
 title: "Show metadata summary for OME-NGFF data"
 ---
+
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
@@ -75,57 +76,85 @@ function getMinMax(zarray) {
     return [minVal, maxVal];
 }
 
-async function renderRegion(path, slices, channelColors, channelRanges) {
+function range(count) {
+    return new Array(count).fill(0).map((a, i) => i)
+}
+
+async function renderRegion(path, axesNames, shape, omeroChannels) {
+
+    const nDims = shape.length;
+    const sizeX = shape[nDims - 1];
+    const sizeY = shape[nDims - 2];
+    if (sizeX > 512 || sizeY > 512) {
+        // Don't try to load too much data
+        return;
+    }
+
+    let channelDim = axesNames.indexOf("c");
+    let sizeC = shape[channelDim] || 1;
+    console.log("sizeC", sizeC);
+    console.log("axesNames", axesNames);
+
+    let dims = getDefaultSlice(axesNames, shape)
+    console.log("channelDim", channelDim);
+    console.log("dims", dims);
+
+    let slices = range(sizeC).map(c => {
+        let sl = [...dims];
+        sl[channelDim] = c; 
+        return sl;
+    });
+    console.log("slices", slices);
+
+
+    let channelRanges = [];
+    let channelColors = [];
+    if (omeroChannels) {
+        channelRanges = omeroChannels.map(channel => {
+            return [channel.window.start, channel.window.end];
+        });
+        channelColors = omeroChannels.map(channel => {
+            return hexToRgb(channel.color);
+        });
+    }
+    log("channelRanges")
+    logJson(channelRanges);
 
     // load all channels...
     const planes = await Promise.all(slices.map(s => loadRegion(path, s)));
     console.log("planes", planes);
-    const shape = planes[0].shape;
     const data = planes[0].data;
-    const height = shape[0];
-    const width = shape[1];
-    // const range = getMinMax(planes[0]);
+    const height = planes[0].shape[0];
+    const width = planes[0].shape[1];
 
-    console.log("SHAPE", shape, height * width);
     console.log("data.length", data.length, data.length * 4)
     console.log("channelColors", channelColors);
     console.log("channelRanges", channelRanges);
 
     const rgba = new Uint8ClampedArray(4 * height * width).fill(0);
     let offset = 0;
-    // let maxFraction = 0;
-    // let maxValue = 0;
-    // let maxRaw = 0;
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             for (let p=0; p < planes.length; p++) {
                 let data = planes[p].data;
                 let rgb = channelColors[p];
                 let range = channelRanges[p];
-                // console.log({x, y, data});
                 let rawValue = data[y][x];
-                // maxRaw = Math.max(maxRaw, rawValue);
-                // range = [0, 55000]
                 let fraction = ((rawValue - range[0]) / (range[1] - range[0]));
-                // maxFraction = Math.max(fraction, maxFraction);
-                // fraction = fraction * 2; // boost
+                // for red, green, blue, 
                 for(let i=0; i<3; i++) {
                     if (rgb[i] > 0) {
+                        // rgb[i] is 0-255...
                         let v = (fraction * rgb[i]) << 0;
-                        // maxValue = Math.max(maxValue, v);
+                        // increase pixel intensity if value is higher
                         rgba[offset + i] = Math.max(rgba[offset + i], v);
                     }
                 }
-                // rgba[offset + 1] = (fraction * rgb[1]) << 0;
-                // rgba[offset + 2] = (fraction * rgb[2]) << 0;
             }
             rgba[offset + 3] = 255; // alpha
             offset += 4;
         }
     }
-    // console.log("maxRaw", maxRaw);
-    // console.log("maxFraction", maxFraction);
-    // console.log("maxValue", maxValue);
     console.log("rgba", rgba);
     logCanvas(rgba, width, height);
 }
@@ -141,6 +170,21 @@ function logCanvas(rgba, width, height) {
 //   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
   ctx.putImageData(img, 0, 0);
+}
+
+function getDefaultSlice(axesNames, shape) {
+    return axesNames.map((axis, index) => {
+        if (axis === 'z') {
+            // Mid-point in Z-stack
+            let sizeZ = shape[index];
+            return parseInt(sizeZ / 2);
+        }
+        if (axis === 'x' || axis === 'y') {
+            return null;
+        }
+        // t and c
+        return 0;
+    });
 }
 
 
@@ -176,81 +220,16 @@ function logCanvas(rgba, width, height) {
     log("paths");
     logJson(paths);
 
-    let channelRanges = [];
-    let channelColors = [];
-    if (rootAttrs?.omero?.channels) {
-        let channels = rootAttrs.omero.channels;
-        channelRanges = channels.map(channel => {
-            return [channel.window.start, channel.window.end];
-        });
-        channelColors = channels.map(channel => {
-            return hexToRgb(channel.color);
-        });
-    }
-    log("channelRanges")
-    logJson(channelRanges);
-
     for (let i=paths.length - 1; i>=0; i--) {
         let path = paths[i];
-        let arrayUrl = source + path;
-        let zAttrsUrl = arrayUrl + "/.zarray";
+        let zAttrsUrl = source + path + "/.zarray";
         log("Loading..." + zAttrsUrl)
         let arrayAttrs = await getJson(zAttrsUrl);
         console.log(arrayAttrs);
 
         const shape = arrayAttrs.shape;
         log("Shape: " + JSON.stringify(shape));
-        const nDims = shape.length;
-        const sizeX = shape[nDims - 1];
-        const sizeY = shape[nDims - 2];
-
-        let xSlice = null;
-        let ySlice = null;
-
-        if (sizeX > 512) {
-            // xSlice = "0:512";
-            continue
-        }
-        if (sizeY > 512) {
-            // ySlice = "0:512";
-            continue;
-        }
-
-        let channelDim = axesNames.indexOf("c");
-        let sizeC = shape[channelDim] || 1;
-        console.log("sizeC", sizeC);
-        console.log("axesNames", axesNames);
-
-        let dims = axesNames.map((axis, index) => {
-            console.log("axis, index", axis, index, axis === 'x' || axis === 'y');
-            if (axis === 'z') {
-                // Mid-point in Z-stack
-                let sizeZ = shape[index];
-                console.log('sizeZ', sizeZ);
-                return parseInt(sizeZ / 2);
-            }
-            if (axis === 't' ) {
-                // Start of time-lapse
-                return 0
-            }
-            if (axis === 'x' || axis === 'y') {
-                return null;
-            }
-            return 0;
-        });
-        console.log("channelDim", channelDim);
-        console.log("dims", dims);
-
-        let slices = channelColors.map((color, c) => {
-            let sl = [...dims];
-            sl[channelDim] = c; 
-            return sl;
-        });
-        console.log("slices", slices);
-
-
-        await renderRegion(path, slices, channelColors, channelRanges);
-        
+        await renderRegion(path, axesNames, shape, rootAttrs.omero?.channels);
     };
 })();
 
