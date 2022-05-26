@@ -90,7 +90,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                     <img class="icon" src="assets/img/vizarr.png"/></a>
                 <a title="Validate NGFF with 'ome-ngff-validator' in new browser tab" target="_blank"
                     href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">
-                    <img class="icon" src="assets/img/check.png"/></a>
+                    <img class="icon" style="opacity: 0.5" src="assets/img/check.png"/></a>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
