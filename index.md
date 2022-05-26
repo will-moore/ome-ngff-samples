@@ -34,6 +34,12 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         background: none;
         padding: 0;
     }
+    .shake {
+        animation: 0.1s linear 0s infinite alternate seesaw;
+    }
+
+    @-webkit-keyframes seesaw { from { transform: rotate(-0.05turn) } to { transform: rotate(0.05turn); }  }
+    @keyframes seesaw { from { transform: rotate(-0.05turn) } to { transform: rotate(0.05turn); }  }
 </style>
 
 <table class="display table" id="table">
@@ -157,10 +163,10 @@ function copyTextToClipboard(text) {
         // show user that copying happened - update text on element (e.g. button)
         let target = event.target;
         let html = target.innerHTML;
-        target.innerHTML = "Copied!"
+        target.classList.add("shake");
         setTimeout(() => {
             // reset after 1 second
-            target.innerHTML = html
+            target.classList.remove("shake");
         }, 1000)
     } else {
         console.log("Copying failed")
