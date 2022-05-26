@@ -76,7 +76,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 </a>
                 <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
             </td>
-            <td><a target="_blank" href="https://ome-ngff-validator.netlify.app/?source={{ rec[s3key] }}">Validate</a></td>
+            <td><a target="_blank" href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">Validate</a></td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
             <td>{{ rec.["SizeZ"] }}</td>
