@@ -25,6 +25,15 @@ title: "Catalog of IDR images formatted as OME-NGFF"
     .dataTables_scrollHeadInner {
         margin: 0 auto;
     }
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+    .no_border {
+        border: none;
+        background: none;
+        padding: 0;
+    }
 </style>
 
 <table class="display table" id="table">
@@ -73,11 +82,15 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="{{ rec[s3key] }}">
                     {{ image_name }}
                 </a><br>
-                <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
-                <a title="Open ome-ngff-validator in new browser tab" target="_blank"
+                <button class="no_border" title="Copy S3 URL to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">
+                    <img class="icon" src="assets/img/copy.png"/>
+                </button>
+                <a title="View NGFF {% if rec['Wells'] %}Plate{% else %}Image{% endif %} in Vizarr" target="_blank"
+                    href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
+                    <img class="icon" src="assets/img/vizarr.png"/></a>
+                <a title="Validate NGFF with 'ome-ngff-validator' in new browser tab" target="_blank"
                     href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">
-                    Validate
-                </a>
+                    <img class="icon" src="assets/img/check.png"/></a>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
