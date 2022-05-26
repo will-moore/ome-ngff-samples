@@ -80,6 +80,36 @@ function range(count) {
     return new Array(count).fill(0).map((a, i) => i)
 }
 
+function renderTo8bitArray(planes, channelColors, channelRanges) {
+    const height = planes[0].shape[0];
+    const width = planes[0].shape[1];
+    const rgba = new Uint8ClampedArray(4 * height * width).fill(0);
+    let offset = 0;
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            for (let p=0; p < planes.length; p++) {
+                let data = planes[p].data;
+                let rgb = channelColors[p];
+                let range = channelRanges[p];
+                let rawValue = data[y][x];
+                let fraction = ((rawValue - range[0]) / (range[1] - range[0]));
+                // for red, green, blue, 
+                for(let i=0; i<3; i++) {
+                    if (rgb[i] > 0) {
+                        // rgb[i] is 0-255...
+                        let v = (fraction * rgb[i]) << 0;
+                        // increase pixel intensity if value is higher
+                        rgba[offset + i] = Math.max(rgba[offset + i], v);
+                    }
+                }
+            }
+            rgba[offset + 3] = 255; // alpha
+            offset += 4;
+        }
+    }
+    return rgba;
+}
+
 async function renderRegion(path, axesNames, shape, omeroChannels) {
 
     const nDims = shape.length;
@@ -131,30 +161,7 @@ async function renderRegion(path, axesNames, shape, omeroChannels) {
     console.log("channelColors", channelColors);
     console.log("channelRanges", channelRanges);
 
-    const rgba = new Uint8ClampedArray(4 * height * width).fill(0);
-    let offset = 0;
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            for (let p=0; p < planes.length; p++) {
-                let data = planes[p].data;
-                let rgb = channelColors[p];
-                let range = channelRanges[p];
-                let rawValue = data[y][x];
-                let fraction = ((rawValue - range[0]) / (range[1] - range[0]));
-                // for red, green, blue, 
-                for(let i=0; i<3; i++) {
-                    if (rgb[i] > 0) {
-                        // rgb[i] is 0-255...
-                        let v = (fraction * rgb[i]) << 0;
-                        // increase pixel intensity if value is higher
-                        rgba[offset + i] = Math.max(rgba[offset + i], v);
-                    }
-                }
-            }
-            rgba[offset + 3] = 255; // alpha
-            offset += 4;
-        }
-    }
+    const rgba = renderTo8bitArray(planes, channelColors, channelRanges);
     console.log("rgba", rgba);
     logCanvas(rgba, width, height);
 }
@@ -229,7 +236,7 @@ function getDefaultSlice(axesNames, shape) {
 
         const shape = arrayAttrs.shape;
         log("Shape: " + JSON.stringify(shape));
-        await renderRegion(path, axesNames, shape, rootAttrs.omero?.channels);
+        await renderRegion(source + path, axesNames, shape, rootAttrs.omero?.channels);
     };
 })();
 
