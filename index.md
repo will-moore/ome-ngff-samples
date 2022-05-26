@@ -22,6 +22,9 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         width: 100%;
         max-width: 100%;
     }
+    .dataTables_scrollHeadInner {
+        margin: 0 auto;
+    }
 </style>
 
 <table class="display table" id="table">
