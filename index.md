@@ -34,7 +34,6 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>OME-NGFF version</th>
             <th>Thumbnail (open in <a target="_blank" href="https://github.com/hms-dbmi/vizarr">Vizarr</a>)</th>
             <th>EMBL-EBI S3 key</th>
-            <th>Validate</th>
             <th>SizeX</th>
             <th>SizeY</th>
             <th>SizeZ</th>
@@ -73,10 +72,10 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>
                 <a href="{{ rec[s3key] }}">
                     {{ image_name }}
-                </a>
+                </a><br>
                 <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
+                <a target="_blank" href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">Validate</a>
             </td>
-            <td><a target="_blank" href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">Validate</a></td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
             <td>{{ rec.["SizeZ"] }}</td>
