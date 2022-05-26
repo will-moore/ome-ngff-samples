@@ -74,7 +74,10 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                     {{ image_name }}
                 </a><br>
                 <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
-                <a target="_blank" href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">Validate</a>
+                <a title="Open ome-ngff-validator in new browser tab" target="_blank"
+                    href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">
+                    Validate
+                </a>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
