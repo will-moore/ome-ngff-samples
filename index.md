@@ -47,7 +47,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
-            <th>Thumbnail (open in <a target="_blank" href="https://github.com/hms-dbmi/vizarr">Vizarr</a>)</th>
+            <th>Thumbnail</th>
             <th>EMBL-EBI S3 key</th>
             <th>SizeX</th>
             <th>SizeY</th>
@@ -60,7 +60,6 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>Keywords</th>
             <th>License</th>
             <th>Study</th>
-            <th>View in IDR</th>
             <th>DOI</th>
             <th>Date added</th>
         </tr>
@@ -112,15 +111,16 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[studykey] }}">
                     {{ rec.["Study"] }}
                 </a>
-            </td>
-            <td>
+                <br>
                 {% if rec["Wells"] %}
-                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
-                        Plate in IDR
+                    <a target="_blank" title="View Plate in IDR"
+                        href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
+                        <img class="icon" src="assets/img/plate16.png"/>
                     </a>
                 {% else %}
-                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
-                        Image in IDR
+                    <a target="_blank" title="View Image in IDR"
+                        href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
+                        <img class="icon" src="assets/img/view.svg"/>
                     </a>
                 {% endif %}
             </td>
