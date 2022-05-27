@@ -22,6 +22,24 @@ title: "Catalog of IDR images formatted as OME-NGFF"
         width: 100%;
         max-width: 100%;
     }
+    .dataTables_scrollHeadInner {
+        margin: 0 auto;
+    }
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+    .no_border {
+        border: none;
+        background: none;
+        padding: 0;
+    }
+    .shake {
+        animation: 0.1s linear 0s infinite alternate seesaw;
+    }
+
+    @-webkit-keyframes seesaw { from { transform: rotate(-0.05turn) } to { transform: rotate(0.05turn); }  }
+    @keyframes seesaw { from { transform: rotate(-0.05turn) } to { transform: rotate(0.05turn); }  }
 </style>
 
 <table class="display table" id="table">
@@ -29,7 +47,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
 <!-- TODO: should be read from data file -->
         <tr>
             <th>OME-NGFF version</th>
-            <th>Thumbnail (open in <a target="_blank" href="https://github.com/hms-dbmi/vizarr">Vizarr</a>)</th>
+            <th>Thumbnail</th>
             <th>EMBL-EBI S3 key</th>
             <th>SizeX</th>
             <th>SizeY</th>
@@ -42,7 +60,6 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <th>Keywords</th>
             <th>License</th>
             <th>Study</th>
-            <th>View in IDR</th>
             <th>DOI</th>
             <th>Date added</th>
         </tr>
@@ -69,8 +86,16 @@ title: "Catalog of IDR images formatted as OME-NGFF"
             <td>
                 <a href="{{ rec[s3key] }}">
                     {{ image_name }}
-                </a>
-                <button style="display:block" title="Copy to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">Copy</button>
+                </a><br>
+                <button class="no_border" title="Copy S3 URL to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">
+                    <img class="icon" src="assets/img/copy.png"/>
+                </button>
+                <a title="View NGFF {% if rec['Wells'] %}Plate{% else %}Image{% endif %} in Vizarr" target="_blank"
+                    href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
+                    <img class="icon" src="assets/img/vizarr.png"/></a>
+                <a title="Validate NGFF with 'ome-ngff-validator' in new browser tab" target="_blank"
+                    href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">
+                    <img class="icon" style="opacity: 0.5" src="assets/img/check.png"/></a>
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
@@ -86,15 +111,16 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a href="https://idr.openmicroscopy.org/search/?query=Name:{{ rec[studykey] }}">
                     {{ rec.["Study"] }}
                 </a>
-            </td>
-            <td>
+                <br>
                 {% if rec["Wells"] %}
-                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
-                        Plate in IDR
+                    <a target="_blank" title="View Plate in IDR"
+                        href="https://idr.openmicroscopy.org/webclient/?show=plate-{{ image_id }}">
+                        <img class="icon" src="assets/img/plate16.png"/>
                     </a>
                 {% else %}
-                    <a target="_blank" href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
-                        Image in IDR
+                    <a target="_blank" title="View Image in IDR"
+                        href="https://idr.openmicroscopy.org/webclient/img_detail/{{ image_id }}/">
+                        <img class="icon" src="assets/img/view.svg"/>
                     </a>
                 {% endif %}
             </td>
@@ -137,10 +163,10 @@ function copyTextToClipboard(text) {
         // show user that copying happened - update text on element (e.g. button)
         let target = event.target;
         let html = target.innerHTML;
-        target.innerHTML = "Copied!"
+        target.classList.add("shake");
         setTimeout(() => {
             // reset after 1 second
-            target.innerHTML = html
+            target.classList.remove("shake");
         }, 1000)
     } else {
         console.log("Copying failed")
