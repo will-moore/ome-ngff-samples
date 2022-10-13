@@ -83,3 +83,5 @@ OME-NGFF version,EMBL-EBI bucket (current),SizeX,SizeY,SizeZ,SizeC,SizeT,Axes,We
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0062A/6001240.zarr,271,275,236,2,,XYZC,,,labels (0),CC BY 4.0,idr0062,,2022-06-21,6001240
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0052A/5514375.zarr,256,256,31,3,40,XYZCT,,,"labels (Cell, Chromosomes)",CC BY 4.0,idr0052,,2022-06-21,5514375
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0001A/2551.zarr,1376,1040,16,2,1,XYZC,96,6,labels (0),CC BY 4.0,idr0001,,2022-07-06,1230059
+0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0101A/13457227.zarr,2048,2048,35,4,18,XYZCT,,,,CC BY 4.0,idr0101,,2022-10-13,13457227
+0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0101A/13457237.zarr,198,223,12,6,18,XYZCT,,,coordinateTransformation (translation) on dataset,CC BY 4.0,idr0101,,2022-10-13,13457237
