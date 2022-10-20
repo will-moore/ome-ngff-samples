@@ -93,9 +93,12 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <button class="no_border" title="Copy S3 URL to clipboard" onclick="copyTextToClipboard('{{ rec[s3key] }}')">
                     <img class="icon" src="assets/img/copy.png"/>
                 </button>
+                <!-- vizarr supports Plate or Non-bioformats2raw images -->
+                {% if rec['Wells'] or rec['Keywords'] != "bioformats2raw.layout" %}
                 <a title="View NGFF {% if rec['Wells'] %}Plate{% else %}Image{% endif %} in Vizarr" target="_blank"
                     href="http://hms-dbmi.github.io/vizarr/?source={{ rec[s3key] }}">
                     <img class="icon vizarr" src="assets/img/vizarr_logo.png"/></a>
+                {% endif %}
                 <a title="Validate NGFF with 'ome-ngff-validator' in new browser tab" target="_blank"
                     href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">
                     <img class="icon" style="opacity: 0.5" src="assets/img/check.png"/></a>
