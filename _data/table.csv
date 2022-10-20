@@ -73,8 +73,8 @@ OME-NGFF version,EMBL-EBI bucket (current),SizeX,SizeY,SizeZ,SizeC,SizeT,Axes,We
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0083A/9822152.zarr,144384,93184,1,1,1,XYZCT,,,,CC BY 4.0,idr0083,,2022-05-11,9822152
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0062A/6001247.zarr,253,210,257,2,,XYZC,,,labels (0),CC BY 4.0,idr0062,,2022-05-11,6001247
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0044A/4007801.zarr,2169,2048,988,2,532,XYZCT,,,,CC BY 4.0,idr0044,,2022-05-17,4007801
-0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0056B/7361.zarr,659,493,1,4,1,XYZCT,384,30,,CC BY 4.0,idr0056,,2022-06-06,9621401
-0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0128E/9701.zarr,2048,2048,1,2,1,XYZCT,384,1,,CC BY 4.0,idr0128,,2022-06-01,13966432
+0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0056B/7361.zarr,659,493,1,4,1,XYZCT,384,30,bioformats2raw.layout,CC BY 4.0,idr0056,,2022-06-06,9621401
+0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0128E/9701.zarr,2048,2048,1,2,1,XYZCT,384,1,bioformats2raw.layout,CC BY 4.0,idr0128,,2022-06-01,13966432
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0013A/3451.zarr,1344,1024,,,93,XYT,384,1,,CC0 1.0,idr0013,,2022-06-03,1483351
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0054A/5025551.zarr,2702,2700,1,27,1,XYZCT,,,,CC BY 4.0,idr0054,,2022-06-03,5025551
 0.4,https://uk1s3.embassy.ebi.ac.uk/idr/zarr/v0.4/idr0054A/5025552.zarr,2701,2701,1,27,1,XYZCT,,,,CC BY 4.0,idr0054,,2022-06-03,5025552
