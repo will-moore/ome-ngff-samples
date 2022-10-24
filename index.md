@@ -102,6 +102,13 @@ title: "Catalog of IDR images formatted as OME-NGFF"
                 <a title="Validate NGFF with 'ome-ngff-validator' in new browser tab" target="_blank"
                     href="https://ome.github.io/ome-ngff-validator/?source={{ rec[s3key] }}">
                     <img class="icon" style="opacity: 0.5" src="assets/img/check.png"/></a>
+                {% unless rec['Wells'] %}
+                {% unless rec["OME-NGFF version"] == "0.1" or rec["OME-NGFF version"] == "0.2" or rec["OME-NGFF version"] == "0.3" %}
+                <a title="Open with itk-vtk-viewer in new browser tab" target="_blank"
+                    href="https://kitware.github.io/itk-vtk-viewer/app/?rotate=false&fileToLoad={{ rec[s3key] }}">
+                    <img class="icon" src="assets/img/itkvtk_logo.png"/></a>
+                {% endunless %}
+                {% endunless %}
             </td>
             <td>{{ rec.["SizeX"] }}</td>
             <td>{{ rec.["SizeY"] }}</td>
