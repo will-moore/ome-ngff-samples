@@ -6,7 +6,7 @@ title: "Catalog of IDR images formatted as OME-NGFF"
   "@context": "http://schema.org",
   "@type": "Catalog",
   "inLanguage": "en-US",
-  "name": "IDR OME-NGFF Samples"
+  "name": "IDR OME-NGFF Samples",
   "publisher": {
     "@type": "Organization",
     "name": "GitHub"
